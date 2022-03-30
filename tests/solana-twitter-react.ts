@@ -107,7 +107,7 @@ describe("solana-twitter-react", () => {
       });
     } catch (error) {
       assert.equal(
-        error.msg,
+        error.error.errorMessage,
         "The provided topic should be 50 characters long maximum."
       );
       return;
@@ -121,7 +121,7 @@ describe("solana-twitter-react", () => {
   it("cannot provide a content with more than 280 characters", async () => {
     try {
       const tweet = anchor.web3.Keypair.generate();
-      const contentWith281Chars = "x".repeat(281);
+      const contentWith281Chars = "f".repeat(281);
       await program.rpc.sendTweet("french", contentWith281Chars, {
         accounts: {
           tweet: tweet.publicKey,
@@ -132,7 +132,7 @@ describe("solana-twitter-react", () => {
       });
     } catch (error) {
       assert.equal(
-        error.msg,
+        error.error.errorMessage,
         "The provided content should be 280 characters long maximum."
       );
       return;
@@ -141,5 +141,10 @@ describe("solana-twitter-react", () => {
     assert.fail(
       "The instruction should have failed with a 281-character content."
     );
+  });
+
+  it("can fetch all tweets", async () => {
+    const tweetAccounts = await program.account.tweet.all();
+    assert.equal(tweetAccounts.length, 3);
   });
 });
