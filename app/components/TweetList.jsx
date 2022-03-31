@@ -1,15 +1,12 @@
-import TweetCard from "./TweetCard";
+import TweetCard from './TweetCard'
 
 export default function TweetList(props) {
-  const { tweets, loading } = props;
-  const orderedTweets = tweets
-    .slice()
-    .sort((a, b) => b.timestamp - a.timestamp);
-  console.log(orderedTweets);
+  const { tweets, loading } = props
+  const orderedTweets = tweets.slice().sort((a, b) => b.timestamp - a.timestamp)
   return (
     <>
       {loading ? (
-        <div className="p-8 text-gray-500 text-center">Loading...</div>
+        <div className="p-8 text-center text-gray-500">Loading...</div>
       ) : (
         <div className="divide-y">
           {orderedTweets.map((tweet, i) => (
@@ -18,5 +15,5 @@ export default function TweetList(props) {
         </div>
       )}
     </>
-  );
+  )
 }

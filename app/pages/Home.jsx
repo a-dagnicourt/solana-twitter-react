@@ -1,24 +1,24 @@
-import { useEffect, useState } from "react";
-import TweetList from "../components/TweetList";
-import Base from "../templates/Base";
-import { fetchTweets } from "./api/fetch-tweets";
-// import TweetForm from "../components/TweetForm";
+import { useEffect, useState } from 'react'
+import TweetList from '../components/TweetList'
+import Base from '../templates/Base'
+import { fetchTweets } from './api/fetch-tweets'
+import TweetForm from '../components/TweetForm'
 
 export default function Home() {
-  const [tweets, setTweets] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [tweets, setTweets] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const addTweet = (tweet) => tweets.value.push(tweet);
+  const addTweet = (tweet) => tweets.value.push(tweet)
 
   useEffect(() => {
     fetchTweets()
       .then((fetchedTweets) => setTweets(fetchedTweets))
-      .finally(() => setLoading(false));
-  }, []);
+      .finally(() => setLoading(false))
+  }, [])
   return (
     <Base>
-      {/* <TweetForm added={addTweet} /> */}
+      <TweetForm added={addTweet} />
       <TweetList tweets={tweets} loading={loading} />
     </Base>
-  );
+  )
 }

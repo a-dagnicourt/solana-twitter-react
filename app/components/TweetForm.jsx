@@ -1,117 +1,117 @@
-import Link from "next/link";
-import { computed, ref, toRefs } from "vue";
-import {
-  useAutoresizeTextarea,
-  useCountCharacterLimit,
-  useSlug,
-} from "@/composables";
-import { sendTweet } from "@/api";
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 
-export default function TweetForm() {
-  // Props.
-  const props = defineProps({
-    forcedTopic: String,
-  });
-  const { forcedTopic } = toRefs(props);
+import { useSlug, useCountCharacterLimit } from '../utils/'
+import { sendTweet } from '../pages/api/send-tweet'
+
+export default function TweetForm({ added, forcedTopic }) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm()
+  const onSubmit = (data) => console.log(data)
+  console.log(watch('effectiveTopic'))
+  useEffect(() => {
+    errors.content
+  }, [])
 
   // Form data.
-  const content = ref("");
-  const topic = ref("");
-  const slugTopic = useSlug(topic);
-  const effectiveTopic = computed(() => forcedTopic.value ?? slugTopic.value);
+  const [topic, setTopic] = useState('')
+  const slugTopic = useSlug(topic)
+  const effectiveTopic = forcedTopic && (forcedTopic.value ?? slugTopic.value)
 
   // Auto-resize the content's textarea.
-  const textarea = ref();
-  useAutoresizeTextarea(textarea);
+  const [textarea, setTextarea] = useState()
+  // useAutoresizeTextarea(textarea)
 
   // Character limit / count-down.
-  const characterLimit = useCountCharacterLimit(content, 280);
-  const characterLimitColour = computed(() => {
-    if (characterLimit.value < 0) return "text-red-500";
-    if (characterLimit.value <= 10) return "text-yellow-500";
-    return "text-gray-400";
-  });
+  const characterLimit = useCountCharacterLimit(watch('content'), 280)
+  let characterLimitColour = 'text-gray-400'
+  if (characterLimit <= 10) characterLimitColour = 'text-yellow-500'
+  if (characterLimit < 0) characterLimitColour = 'text-red-500'
 
   // Permissions.
-  const connected = ref(true); // TODO: Check connected wallet.
-  const canTweet = computed(() => content.value && characterLimit.value > 0);
+  const [connected, setConnected] = useState(true) // TODO: Check connected wallet.
 
   // Actions.
-  const emit = defineEmits(["added"]);
   const send = async () => {
-    if (!canTweet.value) return;
-    const tweet = await sendTweet(effectiveTopic.value, content.value);
-    emit("added", tweet);
-    topic.value = "";
-    content.value = "";
-  };
+    const tweet = await sendTweet(effectiveTopic.value, content.value)
+    topic.value = ''
+    content.value = ''
+  }
   return (
-    // <Home>
     <>
-      <div v-if="connected" className="px-8 py-4 border-b">
-        {/* <!-- Content field. --> */}
-        <textarea
-          ref="textarea"
-          rows="1"
-          className="text-xl w-full focus:outline-none resize-none mb-3"
-          placeholder="What's happening?"
-          v-model="content"
-        ></textarea>
+      {connected ? (
+        <form onSubmit={handleSubmit(onSubmit)} className="border-b px-8 py-4">
+          {/* <!-- Content field. --> */}
+          <textarea
+            {...register('content', {
+              required: true,
+              maxLength: 280,
+            })}
+            id="content"
+            rows="1"
+            className="mb-3 w-full resize-none text-xl focus:outline-none"
+            placeholder="What's happening?"
+          ></textarea>
+          {errors.content && 'Content is required'}
 
-        <div className="flex flex-wrap items-center justify-between -m-2">
-          {/* <!-- Topic field. --> */}
-          <div className="relative m-2 mr-4">
-            <input
-              type="text"
-              placeholder="topic"
-              className="text-pink-500 rounded-full pl-10 pr-4 py-2 bg-gray-100"
-              value="effectiveTopic"
-              disabled="forcedTopic"
-              input="topic = $event.target.value"
-            />
-            <div className="absolute left-0 inset-y-0 flex pl-3 pr-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 m-auto"
-                className="effectiveTopic ? 'text-pink-500' : 'text-gray-400'"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+          <div className="-m-2 flex flex-wrap items-center justify-between">
+            {/* <!-- Topic field. --> */}
+            <div className="relative m-2 mr-4">
+              <input
+                {...register('effectiveTopic')}
+                type="text"
+                placeholder="topic"
+                className="rounded-full bg-gray-100 py-2 pl-10 pr-4 text-pink-500"
+                disabled={forcedTopic}
+              />
+              <div className="absolute inset-y-0 left-0 flex pl-3 pr-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={
+                    (watch('effectiveTopic')
+                      ? 'text-pink-500 '
+                      : 'text-gray-400 ') + 'm-auto h-5 w-5'
+                  }
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.938l1-4H9.031z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div className="m-2 ml-auto flex items-center space-x-6">
+              {/* <!-- Character limit. --> */}
+              <div className={characterLimitColour}>{characterLimit} left</div>
+
+              {/* <!-- Tweet button. --> */}
+              <button
+                disabled={errors.content}
+                className={
+                  (!errors.content
+                    ? 'bg-pink-500 '
+                    : 'cursor-not-allowed bg-pink-300 ') +
+                  'rounded-full px-4 py-2 font-semibold text-white'
+                }
+                type="submit"
               >
-                <path
-                  fill-rule="evenodd"
-                  d="M9.243 3.03a1 1 0 01.727 1.213L9.53 6h2.94l.56-2.243a1 1 0 111.94.486L14.53 6H17a1 1 0 110 2h-2.97l-1 4H15a1 1 0 110 2h-2.47l-.56 2.242a1 1 0 11-1.94-.485L10.47 14H7.53l-.56 2.242a1 1 0 11-1.94-.485L5.47 14H3a1 1 0 110-2h2.97l1-4H5a1 1 0 110-2h2.47l.56-2.243a1 1 0 011.213-.727zM9.03 8l-1 4h2.938l1-4H9.031z"
-                  clip-rule="evenodd"
-                />
-              </svg>
+                Tweet
+              </button>
             </div>
           </div>
-          <div className="flex items-center space-x-6 m-2 ml-auto">
-            {/* <!-- Character limit. --> */}
-            <div className="characterLimitColour">
-              {{ characterLimit }} left
-            </div>
-
-            {/* <!-- Tweet button. --> */}
-            <button
-              className="text-white px-4 py-2 rounded-full font-semibold"
-              disabled="! canTweet"
-              className="canTweet ? 'bg-pink-500' : 'bg-pink-300 cursor-not-allowed'"
-              click="send"
-            >
-              Tweet
-            </button>
-          </div>
+        </form>
+      ) : (
+        <div className="border-b bg-gray-50 px-8 py-4 text-center text-gray-500">
+          Connect your wallet to start tweeting...
         </div>
-      </div>
-
-      <div
-        v-else
-        className="px-8 py-4 bg-gray-50 text-gray-500 text-center border-b"
-      >
-        Connect your wallet to start tweeting...
-      </div>
+      )}
     </>
-
-    // </Home>
-  );
+  )
 }

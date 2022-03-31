@@ -1,8 +1,9 @@
-import { ref, watchEffect } from "vue"
+import { useEffect, useState } from 'react'
 
 export const useCountCharacterLimit = (text, limit) => {
-    const characterLimit = ref(0)
-    watchEffect(() => characterLimit.value = limit - text.value?.length)
+  if (text == undefined) text = 0
+  const [characterLimit, setCharacterLimit] = useState(0)
+  useEffect(() => setCharacterLimit(limit - text.length), [text, limit])
 
-    return characterLimit
+  return characterLimit
 }
