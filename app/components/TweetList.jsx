@@ -1,31 +1,22 @@
-import Link from "next/link";
-import { computed, toRefs } from "vue";
-import TweetCard from "@/components/TweetCard";
+import TweetCard from "./TweetCard";
 
-export default function TweetList() {
-  const props = defineProps({
-    tweets: Array,
-    loading: Boolean,
-  });
-
-  const { tweets, loading } = toRefs(props);
-  const orderedTweets = computed(() => {
-    return tweets.value.slice().sort((a, b) => b.timestamp - a.timestamp);
-  });
+export default function TweetList(props) {
+  const { tweets, loading } = props;
+  const orderedTweets = tweets
+    .slice()
+    .sort((a, b) => b.timestamp - a.timestamp);
+  console.log(orderedTweets);
   return (
-    // <Home>
     <>
-      <div v-if="loading" class="p-8 text-gray-500 text-center">
-        Loading...
-      </div>
-      <div v-else class="divide-y">
-        <tweet-card
-          v-for="tweet in orderedTweets"
-          key="tweet.key"
-          tweet="tweet"
-        ></tweet-card>
-      </div>
+      {loading ? (
+        <div className="p-8 text-gray-500 text-center">Loading...</div>
+      ) : (
+        <div className="divide-y">
+          {orderedTweets.map((tweet, i) => (
+            <TweetCard key={i} tweet={tweet} />
+          ))}
+        </div>
+      )}
     </>
-    // </Home>
   );
 }

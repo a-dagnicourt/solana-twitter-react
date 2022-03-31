@@ -1,40 +1,34 @@
 import Link from "next/link";
-import { toRefs } from "vue";
 
-export default function TweetCard() {
-  const props = defineProps({
-    tweet: Object,
-  });
-
-  const { tweet } = toRefs(props);
+export default function TweetCard({ tweet }) {
+  console.log(tweet);
   return (
-    // <Home>
-    <div class="px-8 py-4">
+    <div className="px-8 py-4">
       <div>
-        <h3 class="inline font-semibold" title="tweet.author">
+        <h3 className="inline font-semibold" title="tweet.author">
           {/* <!-- TODO: Link to author page or the profile page if it's our own tweet. --> */}
-          <Link src="/" class="hover:underline">
+          <Link href="/" className="hover:underline">
             {tweet.author_display}
           </Link>
         </h3>
-        <span class="text-gray-500"> • </span>
-        <time class="text-gray-500 text-sm" title="tweet.created_at">
+        <span className="text-gray-500"> • </span>
+        <time className="text-gray-500 text-sm" title="tweet.created_at">
           {/* // <!-- TODO: Link to the tweet page. --> */}
-          <Link src="/" class="hover:underline">
+          <Link href="/" className="hover:underline">
             {tweet.created_ago}
           </Link>
         </time>
       </div>
-      <p class="whitespace-pre-wrap" v-text="tweet.content"></p>
+      <p className="whitespace-pre-wrap">{tweet.content}</p>
       {/* // <!-- TODO: Link to the topic page. --> */}
-      <Link
-        v-if="tweet.topic"
-        src="/"
-        class="inline-block mt-2 text-pink-500 hover:underline"
-      >
-        #{tweet.topic}
-      </Link>
+      {tweet.topic && (
+        <Link
+          href="/"
+          className="inline-block mt-2 text-pink-500 hover:underline"
+        >
+          {`#${tweet.topic}`}
+        </Link>
+      )}
     </div>
-    // </Home>
   );
 }

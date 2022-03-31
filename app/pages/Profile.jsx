@@ -16,7 +16,7 @@ export default function Profile() {
   return (
     <Base>
       {/* <!-- TODO: Check connected wallet --> */}
-      <div v-if="true" class="border-b px-8 py-4 bg-gray-50">
+      <div v-if="true" className="border-b px-8 py-4 bg-gray-50">
         B1AfN7AgpMyctfFbjmvRAvE1yziZFDb9XCwydBjJwtRN
       </div>
       <tweet-form added="addTweet"></tweet-form>

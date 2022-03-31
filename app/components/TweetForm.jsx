@@ -48,32 +48,32 @@ export default function TweetForm() {
   return (
     // <Home>
     <>
-      <div v-if="connected" class="px-8 py-4 border-b">
+      <div v-if="connected" className="px-8 py-4 border-b">
         {/* <!-- Content field. --> */}
         <textarea
           ref="textarea"
           rows="1"
-          class="text-xl w-full focus:outline-none resize-none mb-3"
+          className="text-xl w-full focus:outline-none resize-none mb-3"
           placeholder="What's happening?"
           v-model="content"
         ></textarea>
 
-        <div class="flex flex-wrap items-center justify-between -m-2">
+        <div className="flex flex-wrap items-center justify-between -m-2">
           {/* <!-- Topic field. --> */}
-          <div class="relative m-2 mr-4">
+          <div className="relative m-2 mr-4">
             <input
               type="text"
               placeholder="topic"
-              class="text-pink-500 rounded-full pl-10 pr-4 py-2 bg-gray-100"
+              className="text-pink-500 rounded-full pl-10 pr-4 py-2 bg-gray-100"
               value="effectiveTopic"
               disabled="forcedTopic"
               input="topic = $event.target.value"
             />
-            <div class="absolute left-0 inset-y-0 flex pl-3 pr-2">
+            <div className="absolute left-0 inset-y-0 flex pl-3 pr-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 m-auto"
-                class="effectiveTopic ? 'text-pink-500' : 'text-gray-400'"
+                className="h-5 w-5 m-auto"
+                className="effectiveTopic ? 'text-pink-500' : 'text-gray-400'"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -85,15 +85,17 @@ export default function TweetForm() {
               </svg>
             </div>
           </div>
-          <div class="flex items-center space-x-6 m-2 ml-auto">
+          <div className="flex items-center space-x-6 m-2 ml-auto">
             {/* <!-- Character limit. --> */}
-            <div class="characterLimitColour">{{ characterLimit }} left</div>
+            <div className="characterLimitColour">
+              {{ characterLimit }} left
+            </div>
 
             {/* <!-- Tweet button. --> */}
             <button
-              class="text-white px-4 py-2 rounded-full font-semibold"
+              className="text-white px-4 py-2 rounded-full font-semibold"
               disabled="! canTweet"
-              class="canTweet ? 'bg-pink-500' : 'bg-pink-300 cursor-not-allowed'"
+              className="canTweet ? 'bg-pink-500' : 'bg-pink-300 cursor-not-allowed'"
               click="send"
             >
               Tweet
@@ -104,7 +106,7 @@ export default function TweetForm() {
 
       <div
         v-else
-        class="px-8 py-4 bg-gray-50 text-gray-500 text-center border-b"
+        className="px-8 py-4 bg-gray-50 text-gray-500 text-center border-b"
       >
         Connect your wallet to start tweeting...
       </div>

@@ -52,7 +52,7 @@ export default function Topics() {
         <template icon>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
+            className="h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -68,7 +68,10 @@ export default function Topics() {
       </tweet-search>
       <div v-if="viewedAuthor">
         <tweet-list tweets="tweets" loading="loading"></tweet-list>
-        <div v-if="tweets.length === 0" class="p-8 text-gray-500 text-center">
+        <div
+          v-if="tweets.length === 0"
+          className="p-8 text-gray-500 text-center"
+        >
           User not found...
         </div>
       </div>

@@ -23,10 +23,10 @@ export default function Profile() {
   });
   return (
     <Base>
-      <div v-if="loading" class="p-8 text-gray-500 text-center">
+      <div v-if="loading" className="p-8 text-gray-500 text-center">
         Loading...
       </div>
-      <div v-else-if="! tweet" class="p-8 text-gray-500 text-center">
+      <div v-else-if="! tweet" className="p-8 text-gray-500 text-center">
         Tweet not found
       </div>
       <tweet-card v-else tweet="tweet"></tweet-card>
