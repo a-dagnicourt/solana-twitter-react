@@ -1,50 +1,50 @@
-import Base from "../templates/Base";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { fetchTweets } from "@/api";
-import { useSlug, useFromRoute } from "@/composables";
-import TweetForm from "@/components/TweetForm";
-import TweetList from "@/components/TweetList";
-import TweetSearch from "@/components/TweetSearch";
+import Base from '../templates/Base'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { fetchTweets } from '@/api'
+import { useSlug, useFromRoute } from '@/composables'
+import TweetForm from '@/components/TweetForm'
+import TweetList from '@/components/TweetList'
+import TweetSearch from '@/components/TweetSearch'
 
 export default function Topics() {
   // Data.
-  const router = useRouter();
-  const tweets = ref([]);
-  const loading = ref(true);
-  const topic = ref("");
-  const slugTopic = useSlug(topic);
-  const viewedTopic = ref("");
+  const router = useRouter()
+  const tweets = ref([])
+  const loading = ref(true)
+  const topic = ref('')
+  const slugTopic = useSlug(topic)
+  const viewedTopic = ref('')
 
   // Actions.
   const search = () => {
-    router.push(`/topics/${slugTopic.value}`);
-  };
+    router.push(`/topics/${slugTopic.value}`)
+  }
 
   const fetchTopicTweets = async () => {
-    if (slugTopic.value === viewedTopic.value) return;
+    if (slugTopic.value === viewedTopic.value) return
     try {
-      loading.value = true;
-      const fetchedTweets = await fetchTweets();
-      tweets.value = fetchedTweets;
-      viewedTopic.value = slugTopic.value;
+      loading.value = true
+      const fetchedTweets = await fetchTweets()
+      tweets.value = fetchedTweets
+      viewedTopic.value = slugTopic.value
     } finally {
-      loading.value = false;
+      loading.value = false
     }
-  };
+  }
 
-  const addTweet = (tweet) => tweets.value.push(tweet);
+  const addTweet = (tweet) => tweets.value.push(tweet)
 
   // Router hooks.
   useFromRoute((route) => {
-    topic.value = route.params.topic;
+    topic.value = route.params.topic
     if (topic.value) {
-      fetchTopicTweets();
+      fetchTopicTweets()
     } else {
-      tweets.value = [];
-      viewedTopic.value = "";
+      tweets.value = []
+      viewedTopic.value = ''
     }
-  });
+  })
   return (
     <Base>
       <tweet-search
@@ -74,11 +74,11 @@ export default function Topics() {
         <tweet-list tweets="tweets" loading="loading"></tweet-list>
         <div
           v-if="tweets.length === 0"
-          className="p-8 text-gray-500 text-center"
+          className="p-8 text-center text-gray-500"
         >
           No tweets were found in this topic...
         </div>
       </div>
     </Base>
-  );
+  )
 }
