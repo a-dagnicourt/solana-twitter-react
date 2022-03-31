@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import TextareaAutosize from 'react-autosize-textarea'
 
 import { useSlug, useCountCharacterLimit } from '../utils/'
 import { sendTweet } from '../pages/api/send-tweet'
@@ -12,19 +13,11 @@ export default function TweetForm({ added, forcedTopic }) {
     formState: { errors },
   } = useForm()
   const onSubmit = (data) => console.log(data)
-  console.log(watch('effectiveTopic'))
-  useEffect(() => {
-    errors.content
-  }, [])
 
   // Form data.
   const [topic, setTopic] = useState('')
   const slugTopic = useSlug(topic)
   const effectiveTopic = forcedTopic && (forcedTopic.value ?? slugTopic.value)
-
-  // Auto-resize the content's textarea.
-  const [textarea, setTextarea] = useState()
-  // useAutoresizeTextarea(textarea)
 
   // Character limit / count-down.
   const characterLimit = useCountCharacterLimit(watch('content'), 280)
@@ -46,7 +39,7 @@ export default function TweetForm({ added, forcedTopic }) {
       {connected ? (
         <form onSubmit={handleSubmit(onSubmit)} className="border-b px-8 py-4">
           {/* <!-- Content field. --> */}
-          <textarea
+          <TextareaAutosize
             {...register('content', {
               required: true,
               maxLength: 280,
@@ -55,7 +48,7 @@ export default function TweetForm({ added, forcedTopic }) {
             rows="1"
             className="mb-3 w-full resize-none text-xl focus:outline-none"
             placeholder="What's happening?"
-          ></textarea>
+          ></TextareaAutosize>
           {errors.content && 'Content is required'}
 
           <div className="-m-2 flex flex-wrap items-center justify-between">
