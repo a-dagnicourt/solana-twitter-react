@@ -11,15 +11,17 @@
   "dependencies": {
     "@project-serum/anchor": "^0.23.0",
     "@solana/web3.js": "^1.37.0",
-    "autoprefixer": "^10.4.4",
     "next": "12.1.2",
-    "postcss": "^8.4.12",
     "react": "18.0.0",
-    "react-dom": "18.0.0",
-    "tailwindcss": "^3.0.23"
+    "react-dom": "18.0.0"
   },
   "devDependencies": {
     "eslint": "8.12.0",
-    "eslint-config-next": "12.1.2"
+    "eslint-config-next": "12.1.2",
+    "prettier": "^2.6.1",
+    "autoprefixer": "^10.4.4",
+    "postcss": "^8.4.12",
+    "prettier-plugin-tailwindcss": "^0.1.8",
+    "tailwindcss": "^3.0.23"
   }
 }
