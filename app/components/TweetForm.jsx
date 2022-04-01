@@ -68,7 +68,7 @@ export default function TweetForm({ added, forcedTopic }) {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className={
-                    (watch('topic') ? 'text-pink-500 ' : 'text-gray-400 ') +
+                    (effectiveTopic ? 'text-pink-500 ' : 'text-gray-400 ') +
                     'm-auto h-5 w-5'
                   }
                   viewBox="0 0 20 20"

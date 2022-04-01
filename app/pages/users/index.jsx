@@ -1,4 +1,4 @@
-import Base from '../templates/Base'
+import Base from '../../templates/Base'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { fetchTweets } from '@/api'
