@@ -1,46 +1,46 @@
-import Base from "../templates/Base";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { fetchTweets } from "@/api";
-import { useFromRoute } from "@/composables";
-import TweetList from "@/components/TweetList";
-import TweetSearch from "@/components/TweetSearch";
+import Base from '../templates/Base'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { fetchTweets } from '@/api'
+import { useFromRoute } from '@/composables'
+import TweetList from '@/components/TweetList'
+import TweetSearch from '@/components/TweetSearch'
 
 export default function Topics() {
   // Data.
-  const router = useRouter();
-  const tweets = ref([]);
-  const loading = ref(true);
-  const author = ref("");
-  const viewedAuthor = ref("");
+  const router = useRouter()
+  const tweets = ref([])
+  const loading = ref(true)
+  const author = ref('')
+  const viewedAuthor = ref('')
 
   // Actions.
   const search = () => {
-    router.push(`/users/${author.value}`);
-  };
+    router.push(`/users/${author.value}`)
+  }
 
   const fetchAuthorTweets = async () => {
-    if (author.value === viewedAuthor.value) return;
+    if (author.value === viewedAuthor.value) return
     try {
-      loading.value = true;
-      const fetchedTweets = await fetchTweets();
-      tweets.value = fetchedTweets;
-      viewedAuthor.value = author.value;
+      loading.value = true
+      const fetchedTweets = await fetchTweets()
+      tweets.value = fetchedTweets
+      viewedAuthor.value = author.value
     } finally {
-      loading.value = false;
+      loading.value = false
     }
-  };
+  }
 
   // Router hooks.
   useFromRoute((route) => {
-    author.value = route.params.author;
+    author.value = route.params.author
     if (author.value) {
-      fetchAuthorTweets();
+      fetchAuthorTweets()
     } else {
-      tweets.value = [];
-      viewedAuthor.value = "";
+      tweets.value = []
+      viewedAuthor.value = ''
     }
-  });
+  })
   return (
     <Base>
       <tweet-search
@@ -58,9 +58,9 @@ export default function Topics() {
             stroke="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
             />
           </svg>
@@ -70,11 +70,11 @@ export default function Topics() {
         <tweet-list tweets="tweets" loading="loading"></tweet-list>
         <div
           v-if="tweets.length === 0"
-          className="p-8 text-gray-500 text-center"
+          className="p-8 text-center text-gray-500"
         >
           User not found...
         </div>
       </div>
     </Base>
-  );
+  )
 }
