@@ -8,12 +8,11 @@ export default function Base({ children }) {
   const [routeName, setRouteName] = useState()
 
   useEffect(() => {
-    setRouteName(toCapitalize(router.pathname))
+    setRouteName(toCapitalize(router.pathname.split('/')[1]))
     if (router.pathname === '/') setRouteName('Home')
     if (router.pathname === '/404') setRouteName('NotFound')
   }, [router.pathname])
 
-  console.log(router.pathname)
   return (
     <div className="mx-auto w-full max-w-3xl lg:max-w-4xl">
       <Sidebar />
