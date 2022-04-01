@@ -8,13 +8,13 @@ export default function Home() {
   const [tweets, setTweets] = useState([])
   const [loading, setLoading] = useState(true)
 
-  const addTweet = (tweet) => tweets.value.push(tweet)
-
   useEffect(() => {
     fetchTweets()
       .then((fetchedTweets) => setTweets(fetchedTweets))
       .finally(() => setLoading(false))
   }, [])
+
+  const addTweet = (tweet) => setTweets([...tweets, tweet])
   return (
     <Base>
       <TweetForm added={addTweet} />

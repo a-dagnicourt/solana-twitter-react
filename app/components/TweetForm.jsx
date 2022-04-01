@@ -12,12 +12,13 @@ export default function TweetForm({ added, forcedTopic }) {
     watch,
     formState: { errors },
   } = useForm()
-  const onSubmit = (data) => console.log(data)
+  const onSubmit = (data) => send(data)
 
   // Form data.
   const [topic, setTopic] = useState('')
+  const [content, setContent] = useState('')
   const slugTopic = useSlug(topic)
-  const effectiveTopic = forcedTopic && (forcedTopic.value ?? slugTopic.value)
+  const effectiveTopic = forcedTopic ?? slugTopic
 
   // Character limit / count-down.
   const characterLimit = useCountCharacterLimit(watch('content'), 280)
@@ -29,10 +30,11 @@ export default function TweetForm({ added, forcedTopic }) {
   const [connected, setConnected] = useState(true) // TODO: Check connected wallet.
 
   // Actions.
-  const send = async () => {
-    const tweet = await sendTweet(effectiveTopic.value, content.value)
-    topic.value = ''
-    content.value = ''
+  const send = async (data) => {
+    const tweet = await sendTweet(effectiveTopic, data.content)
+    added(tweet)
+    setTopic('')
+    setContent('')
   }
   return (
     <>
@@ -49,13 +51,14 @@ export default function TweetForm({ added, forcedTopic }) {
             className="mb-3 w-full resize-none text-xl focus:outline-none"
             placeholder="What's happening?"
           ></TextareaAutosize>
-          {errors.content && 'Content is required'}
 
           <div className="-m-2 flex flex-wrap items-center justify-between">
             {/* <!-- Topic field. --> */}
             <div className="relative m-2 mr-4">
               <input
-                {...register('effectiveTopic')}
+                {...register('topic')}
+                onChange={(e) => setTopic(e.target.value)}
+                value={effectiveTopic}
                 type="text"
                 placeholder="topic"
                 className="rounded-full bg-gray-100 py-2 pl-10 pr-4 text-pink-500"
@@ -65,9 +68,8 @@ export default function TweetForm({ added, forcedTopic }) {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className={
-                    (watch('effectiveTopic')
-                      ? 'text-pink-500 '
-                      : 'text-gray-400 ') + 'm-auto h-5 w-5'
+                    (watch('topic') ? 'text-pink-500 ' : 'text-gray-400 ') +
+                    'm-auto h-5 w-5'
                   }
                   viewBox="0 0 20 20"
                   fill="currentColor"
