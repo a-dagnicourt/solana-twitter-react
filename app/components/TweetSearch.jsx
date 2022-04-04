@@ -4,21 +4,16 @@ export default function TweetSearch({
   children,
   modelValue,
   setTopic,
-  setViewedTopic,
+  slugTopic,
   placeholder,
   disabled,
   search,
 }) {
   const handleSearchSubmit = (data) => {
-    setViewedTopic(data.search)
     search()
   }
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm()
+  const { register, handleSubmit } = useForm()
   const onSubmit = (data) => handleSearchSubmit(data)
 
   return (
@@ -26,6 +21,7 @@ export default function TweetSearch({
       <input
         {...register('search')}
         type="text"
+        value={slugTopic}
         className="w-full bg-gray-50 py-4 pl-16 pr-32 text-gray-700"
         placeholder={placeholder}
         onChange={(e) => setTopic(e.target.value)}

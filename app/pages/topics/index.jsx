@@ -1,54 +1,46 @@
 import Base from '../../templates/Base'
-import { fetchTweets } from '../api/fetch-tweets'
 import { useSlug } from '../../utils'
-import TweetForm from '../../components/TweetForm'
-import TweetList from '../../components/TweetList'
 import TweetSearch from '../../components/TweetSearch'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import TweetForm from '../../components/TweetForm'
+import TweetList from '../../components/TweetList'
 
 export default function Topics() {
   // Data.
   const router = useRouter()
+  const [topic, setTopic] = useState('')
+  const [viewedTopic, setViewedTopic] = useState('')
   const [tweets, setTweets] = useState([])
   const [loading, setLoading] = useState(true)
-  const [topic, setTopic] = useState('')
-  const [modelValue, setModelValue] = useState('')
-  const slugTopic = useSlug(topic)
-  const [viewedTopic, setViewedTopic] = useState('')
 
-  console.log(topic)
-  console.log(slugTopic)
+  const slugTopic = useSlug(topic)
 
   // Actions.
   const search = () => {
-    router.push(`/topics/${slugTopic}`)
+    router.push(`/topics/?search=${slugTopic}`, { shallow: true })
+    setViewedTopic(slugTopic)
   }
 
   const fetchTopicTweets = async () => {
     if (slugTopic === viewedTopic) return
     try {
-      loading = true
+      setLoading(true)
       const fetchedTweets = await fetchTweets()
-      tweets = fetchedTweets
-      viewedTopic = slugTopic
+      setTweets(fetchedTweets)
     } finally {
-      loading = false
+      setLoading(false)
     }
   }
 
   const addTweet = (tweet) => tweets.push(tweet)
 
   // Router hooks.
-  // useFromRoute((route) => {
-  //   topic = route.params.topic
-  //   if (topic) {
-  //     fetchTopicTweets()
-  //   } else {
-  //     tweets = []
-  //     viewedTopic = ''
-  //   }
-  // })
+  useEffect(() => {
+    fetchTopicTweets()
+  }, [viewedTopic])
+  console.log(topic)
+  console.log(viewedTopic)
   return (
     <Base>
       <TweetSearch
@@ -56,7 +48,6 @@ export default function Topics() {
         disabled={!slugTopic}
         modelValue={slugTopic}
         setTopic={setTopic}
-        setViewedTopic={setViewedTopic}
         search={search}
       >
         <svg
@@ -76,12 +67,11 @@ export default function Topics() {
         <div>
           <TweetForm added={addTweet} forcedTopic={viewedTopic} />
           <TweetList tweets={tweets} loading={loading} />
-          <div
-            v-if="tweets.length === 0"
-            className="p-8 text-center text-gray-500"
-          >
-            No tweets were found in this topic...
-          </div>
+          {tweets.length === 0 && (
+            <div className="p-8 text-center text-gray-500">
+              No tweets were found in this topic...
+            </div>
+          )}
         </div>
       )}
     </Base>
