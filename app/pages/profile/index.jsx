@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react'
 import { fetchTweets } from '../api/fetch-tweets'
 import TweetForm from '../../components/TweetForm'
 import TweetList from '../../components/TweetList'
+import { useAnchorWallet } from '@solana/wallet-adapter-react'
 
 export default function Profile() {
   const [tweets, setTweets] = useState([])
   const [loading, setLoading] = useState(true)
-  const [pbKey, setPbKey] = useState(
-    'B1AfN7AgpMyctfFbjmvRAvE1yziZFDb9XCwydBjJwtRN'
-  )
+
+  const wallet = useAnchorWallet()
 
   const addTweet = (tweet) => setTweets([...tweets, tweet])
 
@@ -21,9 +21,9 @@ export default function Profile() {
   return (
     <Base>
       {/* <!-- TODO: Check connected wallet --> */}
-      {pbKey && (
-        <div v-if="true" className="border-b bg-gray-50 px-8 py-4">
-          {pbKey}
+      {wallet && (
+        <div className="border-b bg-gray-50 px-8 py-4">
+          {wallet.publicKey.toBase58()}
         </div>
       )}
       <TweetForm added={addTweet} />

@@ -1,8 +1,11 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
+import { useWallet } from '@solana/wallet-adapter-react'
 
 export default function Sidebar() {
   const router = useRouter()
+  const { connected } = useWallet()
   return (
     <aside className="fixed flex w-20 flex-col items-center space-y-2 py-4 md:w-64 md:items-stretch md:space-y-4 md:py-8 md:pl-4 md:pr-8">
       <Link href="/">
@@ -125,53 +128,51 @@ export default function Sidebar() {
             <div className="hidden text-xl md:block">Users</div>
           </a>
         </Link>
-        {/* <!-- TODO: Check connected wallet. --> */}
-        <Link href="/profile">
-          <a
-            className={
-              (router.pathname == '/profile' ? 'font-bold ' : '') +
-              'inline-flex items-center space-x-4 rounded-full p-3 hover:bg-gray-100 md:w-full'
-            }
-          >
-            {router.pathname == '/profile' ? (
-              <svg
-                v-if="isActive"
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-8 w-8 text-gray-700"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-8 w-8 text-gray-700"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-            )}
-            <div className="hidden text-xl md:block">Profile</div>
-          </a>
-        </Link>
+        {connected && (
+          <Link href="/profile">
+            <a
+              className={
+                (router.pathname == '/profile' ? 'font-bold ' : '') +
+                'inline-flex items-center space-x-4 rounded-full p-3 hover:bg-gray-100 md:w-full'
+              }
+            >
+              {router.pathname == '/profile' ? (
+                <svg
+                  v-if="isActive"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-gray-700"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-gray-700"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
+                </svg>
+              )}
+              <div className="hidden text-xl md:block">Profile</div>
+            </a>
+          </Link>
+        )}
       </div>
       <div className="fixed bottom-8 right-8 w-48 md:static md:w-full">
-        {/* <!-- TODO: Connect wallet --> */}
-        <div className="w-full rounded-full bg-pink-500 px-4 py-2 text-center text-white">
-          Select a wallet
-        </div>
+        <WalletMultiButton />
       </div>
     </aside>
   )

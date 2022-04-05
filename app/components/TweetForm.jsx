@@ -4,6 +4,7 @@ import TextareaAutosize from 'react-autosize-textarea'
 
 import { useSlug, useCountCharacterLimit } from '../utils/'
 import { sendTweet } from '../pages/api/send-tweet'
+import { useWallet } from '@solana/wallet-adapter-react'
 
 export default function TweetForm({ added, forcedTopic }) {
   const { register, handleSubmit, watch } = useForm()
@@ -22,7 +23,7 @@ export default function TweetForm({ added, forcedTopic }) {
   if (characterLimit < 0) characterLimitColour = 'text-red-500'
 
   // Permissions.
-  const [connected, setConnected] = useState(true) // TODO: Check connected wallet.
+  const { connected } = useWallet()
   const canTweet = watch('content') && characterLimit > 0
 
   // Actions.
