@@ -42,7 +42,7 @@ export default function Topics() {
         placeholder="topic"
         disabled={!slugTopic}
         modelValue={slugTopic}
-        setTopic={setTopic}
+        setModelValue={setTopic}
         search={search}
       >
         <svg

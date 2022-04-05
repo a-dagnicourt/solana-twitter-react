@@ -3,8 +3,7 @@ import { useForm } from 'react-hook-form'
 export default function TweetSearch({
   children,
   modelValue,
-  setTopic,
-  slugTopic,
+  setModelValue,
   placeholder,
   disabled,
   search,
@@ -21,10 +20,10 @@ export default function TweetSearch({
       <input
         {...register('search')}
         type="text"
-        value={slugTopic}
+        value={modelValue}
         className="w-full bg-gray-50 py-4 pl-16 pr-32 text-gray-700"
         placeholder={placeholder}
-        onChange={(e) => setTopic(e.target.value)}
+        onChange={(e) => setModelValue(e.target.value)}
       />
       <div
         className={
