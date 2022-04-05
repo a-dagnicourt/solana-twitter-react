@@ -129,11 +129,11 @@ export default function Sidebar() {
         <Link href="/profile">
           <a
             className={
-              (router.pathname == '/topics' ? 'font-bold ' : '') +
+              (router.pathname == '/profile' ? 'font-bold ' : '') +
               'inline-flex items-center space-x-4 rounded-full p-3 hover:bg-gray-100 md:w-full'
             }
           >
-            {router.pathname == '/topics' ? (
+            {router.pathname == '/profile' ? (
               <svg
                 v-if="isActive"
                 xmlns="http://www.w3.org/2000/svg"

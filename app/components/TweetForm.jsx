@@ -6,12 +6,7 @@ import { useSlug, useCountCharacterLimit } from '../utils/'
 import { sendTweet } from '../pages/api/send-tweet'
 
 export default function TweetForm({ added, forcedTopic }) {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm()
+  const { register, handleSubmit, watch } = useForm()
   const onSubmit = (data) => send(data)
 
   // Form data.
@@ -28,6 +23,7 @@ export default function TweetForm({ added, forcedTopic }) {
 
   // Permissions.
   const [connected, setConnected] = useState(true) // TODO: Check connected wallet.
+  const canTweet = watch('content') && characterLimit > 0
 
   // Actions.
   const send = async (data) => {
@@ -88,9 +84,9 @@ export default function TweetForm({ added, forcedTopic }) {
 
               {/* <!-- Tweet button. --> */}
               <button
-                disabled={errors.content}
+                disabled={!canTweet}
                 className={
-                  (!errors.content
+                  (canTweet
                     ? 'bg-pink-500 '
                     : 'cursor-not-allowed bg-pink-300 ') +
                   'rounded-full px-4 py-2 font-semibold text-white'

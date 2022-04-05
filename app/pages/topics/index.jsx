@@ -3,6 +3,7 @@ import { useSlug } from '../../utils'
 import TweetSearch from '../../components/TweetSearch'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { fetchTweets } from '../api/fetch-tweets'
 import TweetForm from '../../components/TweetForm'
 import TweetList from '../../components/TweetList'
 
@@ -18,29 +19,23 @@ export default function Topics() {
 
   // Actions.
   const search = () => {
-    router.push(`/topics/?search=${slugTopic}`, { shallow: true })
+    router.push(`/topics/?search=${slugTopic}`, undefined, { shallow: true })
     setViewedTopic(slugTopic)
   }
 
   const fetchTopicTweets = async () => {
-    if (slugTopic === viewedTopic) return
-    try {
-      setLoading(true)
-      const fetchedTweets = await fetchTweets()
-      setTweets(fetchedTweets)
-    } finally {
-      setLoading(false)
+    if (slugTopic === viewedTopic) {
+      await fetchTweets()
+        .then((fetchedTweets) => setTweets(fetchedTweets))
+        .finally(() => setLoading(false))
     }
   }
-
-  const addTweet = (tweet) => tweets.push(tweet)
+  const addTweet = (tweet) => setTweets([...tweets, tweet])
 
   // Router hooks.
   useEffect(() => {
     fetchTopicTweets()
-  }, [viewedTopic])
-  console.log(topic)
-  console.log(viewedTopic)
+  }, [topic])
   return (
     <Base>
       <TweetSearch
