@@ -7,7 +7,6 @@ export default function TweetCard({ tweet }) {
     wallet && wallet.publicKey.toBase58() === tweet.author.toBase58()
       ? '/profile'
       : `/users/${tweet.author.toBase58()}`
-  console.log(tweet)
   return (
     <div className="px-8 py-4">
       <div>

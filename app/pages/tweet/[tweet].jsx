@@ -7,9 +7,9 @@ import TweetCard from '../../components/TweetCard'
 
 export default function Tweet() {
   const router = useRouter()
-  const [tweetAddress, setTweetAddress] = useState(router.query.tweet)
   const [tweet, setTweet] = useState(null)
   const [loading, setLoading] = useState(true)
+  const tweetAddress = router.query.tweet
 
   useEffect(() => {
     fetchTweet()
@@ -20,8 +20,6 @@ export default function Tweet() {
       .then((fetchedTweet) => setTweet(fetchedTweet))
       .finally(() => setLoading(false))
   }
-  console.log(loading)
-  console.log(tweet)
   return (
     <Base>
       {loading ? (

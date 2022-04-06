@@ -36,7 +36,6 @@ export default function Topics() {
   useEffect(() => {
     fetchTopicTweets()
   }, [topic])
-  console.log(tweets)
   return (
     <Search
       icon={topicIcon}
