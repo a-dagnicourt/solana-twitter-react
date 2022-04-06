@@ -10,9 +10,18 @@ import {
   SolflareWalletAdapter,
 } from '@solana/wallet-adapter-wallets'
 import { clusterApiUrl } from '@solana/web3.js'
+import { initWorkspace } from '../utils/useWorkspace'
 
+// CSS
 require('@solana/wallet-adapter-react-ui/styles.css')
 require('../styles/globals.css')
+
+// Day.js
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(localizedFormat)
+dayjs.extend(relativeTime)
 
 function MyApp({ Component, pageProps }) {
   const network = WalletAdapterNetwork.Devnet
@@ -23,6 +32,9 @@ function MyApp({ Component, pageProps }) {
     () => [new PhantomWalletAdapter(), new SolflareWalletAdapter({ network })],
     [network]
   )
+
+  initWorkspace()
+
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>

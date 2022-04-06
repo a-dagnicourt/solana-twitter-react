@@ -1,7 +1,7 @@
 import { useSlug } from '../../utils'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { fetchTweets } from '../api/fetch-tweets'
+import { fetchTweets, topicFilter } from '../api/fetch-tweets'
 import TweetForm from '../../components/TweetForm'
 import TweetList from '../../components/TweetList'
 import Search from '../../templates/Search'
@@ -25,7 +25,7 @@ export default function Topics() {
 
   const fetchTopicTweets = async () => {
     if (slugTopic === viewedTopic) {
-      await fetchTweets()
+      await fetchTweets([topicFilter(slugTopic)])
         .then((fetchedTweets) => setTweets(fetchedTweets))
         .finally(() => setLoading(false))
     }
@@ -36,6 +36,7 @@ export default function Topics() {
   useEffect(() => {
     fetchTopicTweets()
   }, [topic])
+  console.log(tweets)
   return (
     <Search
       icon={topicIcon}

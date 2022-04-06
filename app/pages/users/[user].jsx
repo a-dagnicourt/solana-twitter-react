@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { fetchTweets } from '../api/fetch-tweets'
+import { fetchTweets, authorFilter } from '../api/fetch-tweets'
 import TweetList from '../../components/TweetList'
 import { useRouter } from 'next/router'
 import Search from '../../templates/Search'
@@ -20,7 +20,7 @@ export default function User() {
   }
 
   const fetchAuthorTweets = async () => {
-    await fetchTweets()
+    await fetchTweets([authorFilter(author)])
       .then((fetchedTweets) => {
         setTweets(fetchedTweets)
       })

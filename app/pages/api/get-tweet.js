@@ -1,11 +1,8 @@
+import { Tweet } from '../../models'
+import { useWorkspace } from '../../utils/useWorkspace'
+
 export const getTweet = async (publicKey) => {
-    return {
-        publicKey,
-        topic: 'solana',
-        content: 'gm',
-        author_display: 'B1Af..wtRN',
-        created_at: 'Nov 26, 2021 1:03PM',
-        created_ago: 'just now',
-        timestamp: 1637932864,
-    }
+  const { program } = useWorkspace()
+  const account = await program.account.tweet.fetch(publicKey)
+  return new Tweet(publicKey, account)
 }

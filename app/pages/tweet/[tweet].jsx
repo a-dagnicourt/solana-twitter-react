@@ -18,9 +18,10 @@ export default function Tweet() {
   const fetchTweet = async () => {
     await getTweet(new PublicKey(tweetAddress))
       .then((fetchedTweet) => setTweet(fetchedTweet))
-      .finally(setLoading(false))
+      .finally(() => setLoading(false))
   }
-
+  console.log(loading)
+  console.log(tweet)
   return (
     <Base>
       {loading ? (
@@ -30,7 +31,7 @@ export default function Tweet() {
           {!tweet ? (
             <div className="p-8 text-center text-gray-500">Tweet not found</div>
           ) : (
-            <TweetCard tweet="tweet" />
+            <TweetCard tweet={tweet} />
           )}
         </>
       )}
