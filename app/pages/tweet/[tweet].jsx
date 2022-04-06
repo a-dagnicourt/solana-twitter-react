@@ -7,9 +7,9 @@ import TweetCard from '../../components/TweetCard'
 
 export default function Tweet() {
   const router = useRouter()
-  const [tweetAddress, setTweetAddress] = useState(router.query.tweet)
   const [tweet, setTweet] = useState(null)
   const [loading, setLoading] = useState(true)
+  const tweetAddress = router.query.tweet
 
   useEffect(() => {
     fetchTweet()
@@ -18,9 +18,8 @@ export default function Tweet() {
   const fetchTweet = async () => {
     await getTweet(new PublicKey(tweetAddress))
       .then((fetchedTweet) => setTweet(fetchedTweet))
-      .finally(setLoading(false))
+      .finally(() => setLoading(false))
   }
-
   return (
     <Base>
       {loading ? (
@@ -30,7 +29,7 @@ export default function Tweet() {
           {!tweet ? (
             <div className="p-8 text-center text-gray-500">Tweet not found</div>
           ) : (
-            <TweetCard tweet="tweet" />
+            <TweetCard tweet={tweet} />
           )}
         </>
       )}
