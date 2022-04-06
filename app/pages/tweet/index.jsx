@@ -5,7 +5,7 @@ import { PublicKey } from '@solana/web3.js'
 import { getTweet } from '../api/fetch-tweets'
 import TweetCard from '../../components/TweetCard'
 
-export default function Profile() {
+export default function Tweet() {
   const [tweetAddress, setTweetAddress] = useState(null)
   const [tweet, setTweet] = useState(null)
   const [loading, setLoading] = useState(false)
