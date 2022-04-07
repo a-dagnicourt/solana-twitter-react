@@ -1,6 +1,6 @@
 import { PublicKey } from '@solana/web3.js'
 import { Provider, Program } from '@project-serum/anchor'
-import idl from '../../target/idl/solana_twitter_react.json'
+import idl from '../idl/solana_twitter_react.json'
 
 const preflightCommitment = 'processed'
 const commitment = 'processed'
@@ -8,8 +8,7 @@ const programID = new PublicKey(idl.metadata.address)
 let workspace = null
 
 export const useWorkspace = () => workspace
-console.log(idl)
-console.log(programID)
+
 export const initWorkspace = (wallet, connection) => {
   const provider = new Provider(connection, wallet, {
     preflightCommitment,

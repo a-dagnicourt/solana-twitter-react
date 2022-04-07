@@ -25,7 +25,7 @@ dayjs.extend(relativeTime)
 function MyApp({ Component, pageProps }) {
   const network = WalletAdapterNetwork.Devnet
 
-  const endpoint = useMemo(() => 'http://127.0.0.1:8899', [network])
+  const endpoint = useMemo(() => clusterApiUrl(network), [network])
 
   const wallets = useMemo(
     () => [new PhantomWalletAdapter(), new SolflareWalletAdapter({ network })],
