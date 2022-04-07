@@ -5,7 +5,8 @@ import { Tweet } from '../../models/Tweet'
 // 1. Define the sendTweet endpoint.
 export const sendTweet = async (topic, content) => {
   const { wallet, program } = useWorkspace()
-
+  console.log(wallet)
+  console.log(program)
   // 2. Generate a new Keypair for our new tweet account.
   const tweet = web3.Keypair.generate()
 
