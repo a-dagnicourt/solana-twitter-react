@@ -25,7 +25,7 @@ export default function TweetCard({ tweet }) {
       <p className="whitespace-pre-wrap">{tweet.content}</p>
       {tweet.topic && (
         <Link href={`/topics/${tweet.topic}`}>
-          <a className="mt-2 inline-block text-pink-500 hover:underline">
+          <a className="text-primary-500 mt-2 inline-block hover:underline">
             {`#${tweet.topic}`}
           </a>
         </Link>

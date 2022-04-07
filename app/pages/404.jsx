@@ -7,7 +7,7 @@ export default function NotFound() {
       <div className="p-8 text-center text-gray-500">
         <p>404 — Not Found</p>
         <Link href="/">
-          <a className="mt-2 block text-pink-500 hover:underline">
+          <a className="text-primary-500 mt-2 block hover:underline">
             Go back home
           </a>
         </Link>

@@ -11,7 +11,7 @@
 }
 
 .wallet-adapter-button-trigger {
-  @apply justify-center bg-pink-500 !important;
+  @apply justify-center bg-primary-500 !important;
 }
 
 .wallet-adapter-dropdown-list {

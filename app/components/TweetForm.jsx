@@ -58,14 +58,14 @@ export default function TweetForm({ added, forcedTopic }) {
                 value={effectiveTopic}
                 type="text"
                 placeholder="topic"
-                className="rounded-full bg-gray-100 py-2 pl-10 pr-4 text-pink-500"
+                className="text-primary-500 rounded-full bg-gray-100 py-2 pl-10 pr-4"
                 disabled={forcedTopic}
               />
               <div className="absolute inset-y-0 left-0 flex pl-3 pr-2">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className={
-                    (effectiveTopic ? 'text-pink-500 ' : 'text-gray-400 ') +
+                    (effectiveTopic ? 'text-primary-500 ' : 'text-gray-400 ') +
                     'm-auto h-5 w-5'
                   }
                   viewBox="0 0 20 20"
@@ -88,8 +88,8 @@ export default function TweetForm({ added, forcedTopic }) {
                 disabled={!canTweet}
                 className={
                   (canTweet
-                    ? 'bg-pink-500 '
-                    : 'cursor-not-allowed bg-pink-300 ') +
+                    ? 'bg-primary-500 '
+                    : 'bg-primary-300 cursor-not-allowed ') +
                   'rounded-full px-4 py-2 font-semibold text-white'
                 }
                 type="submit"

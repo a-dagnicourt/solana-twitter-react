@@ -12,7 +12,7 @@ export default function Sidebar() {
         <a className="inline-block rounded-full p-3 hover:bg-gray-100 md:self-start">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8 text-pink-500 md:h-10 md:w-10"
+            className="text-primary-500 h-8 w-8 md:h-10 md:w-10"
             viewBox="0 0 20 20"
             fill="currentColor"
           >
