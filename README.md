@@ -22,7 +22,7 @@ Hi ! This is my React/Nextjs version of the absolutly stunning Solana Twitter dA
 
 # How to get started
 
->solana dApp part
+>Solana dApp part
 
 The best way to jump into the web3 buidling world is the Loris' blog article, where solana dev environment install is fully detailled : [# Getting started with Solana and Anchor](https://lorisleiva.com/create-a-solana-dapp-from-scratch/getting-started-with-solana-and-anchor)
 
@@ -31,7 +31,9 @@ The best way to jump into the web3 buidling world is the Loris' blog article, wh
 >Nextjs front part
 
 Again, go check the article, at episode 7 : [# Scaffolding the frontend](https://lorisleiva.com/create-a-solana-dapp-from-scratch/scaffolding-the-frontend)
+
 But now you're on your own !
+
 Call your best React experience to transcript every instruction from Vue to Nextjs from this base : [episode-7 repo / React version](https://github.com/a-dagnicourt/solana-twitter-react/tree/nextjs-episode-7) !
 
 
@@ -49,9 +51,12 @@ If you just want to try the dApp here : [solana-twitter-react.vercel.app](https:
  3. Airdrop to your wallet some Devnet Solana [here](https://solfaucet.com/).
  4. Enjoy the app. 
 
+
 > Devnet so no real money involved ;)
 
+
 *Don't worry about switching Solana net, it'll handle itself as the dApp is deployed on devnet, all transactions will take place on devnet.*
+
 
 # Solana Web3 beginner resources
 > Not listing obvious Solana, Anchor, etc... docs
