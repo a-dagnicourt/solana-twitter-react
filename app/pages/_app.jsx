@@ -10,7 +10,6 @@ import {
   SolflareWalletAdapter,
 } from '@solana/wallet-adapter-wallets'
 import { clusterApiUrl } from '@solana/web3.js'
-import { initWorkspace } from '../utils/useWorkspace'
 
 // CSS
 require('@solana/wallet-adapter-react-ui/styles.css')
@@ -32,8 +31,6 @@ function MyApp({ Component, pageProps }) {
     () => [new PhantomWalletAdapter(), new SolflareWalletAdapter({ network })],
     [network]
   )
-
-  initWorkspace()
 
   return (
     <ConnectionProvider endpoint={endpoint}>
